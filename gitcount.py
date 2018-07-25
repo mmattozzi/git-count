@@ -38,19 +38,20 @@ WEEK = timedelta(weeks=1)
 DATE_FORMAT = '%Y-%m-%d 00:00:00'
 
 
-def count(author=None, period='weekly', first='monday', number=None, range='', paths=None, not_all=False, merges=False, **options):
+def count(author=None, period='weekly', first='monday', number=None, range='', paths=None, not_all=False, merges=False, delimiter='\t', **options):
     '''It counts the commits in a Git repository.
 
-        -a, --author=<str>  Specify an author.
-        -p, --period=<str>  Specify the period: daily (d), weekly (w), monthly
-                            (m) or yearly (y). Default is weekly.
-        -f, --first=<str>   Specify the first day of weeks: monday (mon), sunday
-                            (sun), saturday (sat). Default is monday.
-        -n, --number=<int>  How many periods?
-        -r, --range=<str>   Specify the range, ex. master..dev.
-        -t, --paths=<str>   Specify the paths, ex. .gitignore.
-        --not-all           Count the commits in current branch only.
-        --merges            Include the merge commits.
+        -a, --author=<str>    Specify an author.
+        -p, --period=<str>    Specify the period: daily (d), weekly (w), monthly
+                              (m) or yearly (y). Default is weekly.
+        -f, --first=<str>     Specify the first day of weeks: monday (mon), sunday
+                              (sun), saturday (sat). Default is monday.
+        -n, --number=<int>    How many periods?
+        -r, --range=<str>     Specify the range, ex. master..dev.
+        -t, --paths=<str>     Specify the paths, ex. .gitignore.
+        --not-all             Count the commits in current branch only.
+        --merges              Include the merge commits.
+        -d, --delimiter=<str> Specify a delimiter. Default is tab.
 
     The other arguments will be passed to the command, ``git log``.
     '''
@@ -109,7 +110,7 @@ def count(author=None, period='weekly', first='monday', number=None, range='', p
 
         count = count_git_log(range, paths, options)
         if count is not None:
-            print('%s\t%s' % (since, count))
+            print('%s%s%s' % (since, delimiter, count))
         else:
             return
 
